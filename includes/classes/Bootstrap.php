@@ -19,4 +19,17 @@ class Bootstrap{
         return self::$instance;
     }
 
+    private function __construct(){
+        $this->hook_registration();
+    }
+
+    public function init_widgets(){
+        require_once(NUF_ELEMENTOR_PATH . '/includes/classes/form/form.php');
+        \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Form() );
+    }
+
+    protected function hook_registration(){
+        add_action('elementor/widgets/widgets_registered', array($this, 'init_widgets'));
+    }
+
 }
