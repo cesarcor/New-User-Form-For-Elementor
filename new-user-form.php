@@ -14,6 +14,10 @@ if (!defined('ABSPATH')):
     exit;
 endif;
 
+define('NUF_ELEMENTOR_PATH', trailingslashit(plugin_dir_path(__FILE__)));
+
+require_once NUF_ELEMENTOR_PATH . 'autoload.php';
+
 add_action('plugins_loaded', function (){
-    \NEW_USER_FORM\Classes\Bootstrap::instance();
+    \New_User_Form_Elementor\Classes\Bootstrap::instance();
 });
