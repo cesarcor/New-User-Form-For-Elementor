@@ -82,12 +82,30 @@ class Form extends Widget_Base {
         );
 
         $this->end_controls_section();
+
+        $this->start_controls_section(
+            'nuf_button_section',
+            [
+                'label' => __('Submit Button', 'new-user-form-elementor'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+            'nuf_submit_button_text',
+            [
+                'label' => __('Button Text', 'new-user-form-elementor'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => 'Register',
+                'placeholder' => ''
+            ]
+        );
+
+        $this->end_controls_section();
     }
 
     protected function render() {
-        $settings = $this->get_settings_for_display();
-
-    ?>
+        $settings = $this->get_settings_for_display(); ?>
 
     <form class="nuf-new-user-form">
 
@@ -99,6 +117,12 @@ class Form extends Widget_Base {
         <input type='text'/>
 
         <?php endforeach; ?>
+
+        <div class="nuf-button-container">
+            <button type="submit" class="nug-button elementor-button">
+                <?php echo esc_html($settings['nuf_submit_button_text']); ?>
+            </button>
+        </div>
 
     </div>
     
