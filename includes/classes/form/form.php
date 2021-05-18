@@ -4,6 +4,7 @@ namespace New_User_Form_Elementor\Classes;
 
 use Elementor\Widget_Base;
 use Elementor\Repeater;
+use New_User_Form_Elementor\Classes\Form\Field_Creation;
 
 class Form extends Widget_Base {
     public function get_name() {
@@ -105,18 +106,16 @@ class Form extends Widget_Base {
     }
 
     protected function render() {
-        $settings = $this->get_settings_for_display(); ?>
+
+    $settings = $this->get_settings_for_display();
+    
+    ?>
 
     <form class="nuf-new-user-form">
 
     <div class="elementor-form-fields-wrapper elementor-labels-above">
 
-        <?php foreach ($settings['nuf_field_list'] as $item_index => $item): ?>
-
-        <label><?php echo $item['nuf_field_label'] ?></label>
-        <input type='text'/>
-
-        <?php endforeach; ?>
+        <?php $this->render_fields(); ?>
 
         <div class="nuf-button-container">
             <button type="submit" class="nug-button elementor-button">
@@ -129,5 +128,36 @@ class Form extends Widget_Base {
     </form>
 
     <?php
+    }
+
+    protected function render_fields(){
+
+        $settings = $this->get_settings_for_display();
+        $field_creation = new Field_Creation();
+            
+            foreach ($settings['nuf_field_list'] as $item_index => $item): ?>
+
+            <label><?php echo $item['nuf_field_label'] ?></label>
+    
+            <?php 
+            
+            switch($item['nuf_field_type']):
+                case 'username':
+                case 'user_email':
+                case 'first_name':
+                case 'last_name':
+                    echo $field_creation->create_text_field(['type' => $item['nuf_field_type'] === 'user_email' ? 'email' : 'text' ]);
+                break;
+                case 'user_password':
+                case 'user_password_confirm':
+                    echo $field_creation->create_password_field();
+                break;
+                case 'user_description':
+                    echo $field_creation->create_textarea_field();
+                break;
+            endswitch;
+        
+            endforeach;
+
     }
 }
