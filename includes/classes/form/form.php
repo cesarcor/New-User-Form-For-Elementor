@@ -6,6 +6,11 @@ use Elementor\Widget_Base;
 use Elementor\Repeater;
 use New_User_Form_Elementor\Classes\Form\Field_Creation;
 
+// Exit if accessed directly
+if (!defined('ABSPATH')):
+    exit;
+endif;
+
 class Form extends Widget_Base {
     public function get_name() {
         return 'new-user-form';
@@ -54,6 +59,15 @@ class Form extends Widget_Base {
             'nuf_field_label',
             [
                 'label' => __('Field Label', 'new-user-form-elementor'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => ''
+            ]
+        );
+
+        $fields_repeater->add_control(
+            'nuf_field_placeholder',
+            [
+                'label' => __('Field Placeholder', 'new-user-form-elementor'),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => ''
             ]
@@ -146,14 +160,22 @@ class Form extends Widget_Base {
                 case 'user_email':
                 case 'first_name':
                 case 'last_name':
-                    echo $field_creation->create_text_field(['type' => $item['nuf_field_type'] === 'user_email' ? 'email' : 'text' ]);
+                    echo $field_creation->create_text_field([
+                        'type' => $item['nuf_field_type'] === 'user_email' ? 'email' : 'text',
+                        'placeholder' => $item['nuf_field_placeholder']
+                    ]);
                 break;
                 case 'user_password':
                 case 'user_password_confirm':
-                    echo $field_creation->create_password_field();
+                    echo $field_creation->create_password_field([
+                        'placeholder' => $item['nuf_field_placeholder']
+                    ]);
                 break;
                 case 'user_description':
-                    echo $field_creation->create_textarea_field();
+                    echo $field_creation->create_textarea_field([
+                        'placeholder' => $item['nuf_field_placeholder']
+                        ]
+                    );
                 break;
             endswitch;
         
