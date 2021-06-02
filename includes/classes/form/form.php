@@ -37,6 +37,20 @@ class Form extends Widget_Base {
             'user_description' => __('User Description', 'new-user-form-elementor')
         ];
 
+        $nuf_field_widths = [
+            '' => __('Default', 'elemental-membership'),
+            '100' => '100%',
+            '80' => '80%',
+            '75' => '75%',
+            '66' => '66%',
+            '60' => '60%',
+            '50' => '50%',
+            '40' => '40%',
+            '33' => '33%',
+            '25' => '25%',
+            '20' => '20%',
+        ];
+
         $this->start_controls_section(
             'nuf_fields_section',
             [
@@ -70,6 +84,16 @@ class Form extends Widget_Base {
                 'label' => __('Field Placeholder', 'new-user-form-elementor'),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => ''
+            ]
+        );
+
+        $fields_repeater->add_control(
+            'nuf_field_width',
+            [
+                'label' => __('Field Width', 'new-user-form-elementor'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => '100',
+                'options' => $nuf_field_widths
             ]
         );
 
@@ -149,36 +173,42 @@ class Form extends Widget_Base {
         $settings = $this->get_settings_for_display();
         $field_creation = new Field_Creation();
             
-            foreach ($settings['nuf_field_list'] as $item_index => $item): ?>
+            foreach ($settings['nuf_field_list'] as $item_index => $item): 
 
-            <label><?php echo $item['nuf_field_label'] ?></label>
-    
-            <?php 
-            
-            switch($item['nuf_field_type']):
-                case 'username':
-                case 'user_email':
-                case 'first_name':
-                case 'last_name':
-                    echo $field_creation->create_text_field([
-                        'type' => $item['nuf_field_type'] === 'user_email' ? 'email' : 'text',
-                        'placeholder' => $item['nuf_field_placeholder']
-                    ]);
-                break;
-                case 'user_password':
-                case 'user_password_confirm':
-                    echo $field_creation->create_password_field([
-                        'placeholder' => $item['nuf_field_placeholder']
-                    ]);
-                break;
-                case 'user_description':
-                    echo $field_creation->create_textarea_field([
-                        'placeholder' => $item['nuf_field_placeholder']
-                        ]
-                    );
-                break;
-            endswitch;
-        
+                $fieldWidth = (('' !== $item['nuf_field_width']) ? $item['nuf_field_width'] : '100'); ?>
+                
+                    <div class="nuf-field-group elementor-field-group elementor-column elementor-col-<?php echo esc_attr($fieldWidth); ?>">
+
+                        <label><?php echo $item['nuf_field_label'] ?></label>
+                
+                        <?php 
+                        switch($item['nuf_field_type']):
+                            case 'username':
+                            case 'user_email':
+                            case 'first_name':
+                            case 'last_name':
+                                echo $field_creation->create_text_field([
+                                    'type' => $item['nuf_field_type'] === 'user_email' ? 'email' : 'text',
+                                    'placeholder' => $item['nuf_field_placeholder']
+                                ]);
+                            break;
+                            case 'user_password':
+                            case 'user_password_confirm':
+                                echo $field_creation->create_password_field([
+                                    'placeholder' => $item['nuf_field_placeholder']
+                                ]);
+                            break;
+                            case 'user_description':
+                                echo $field_creation->create_textarea_field([
+                                    'placeholder' => $item['nuf_field_placeholder']
+                                    ]
+                                );
+                            break;
+                        endswitch; ?>
+
+                    </div>
+
+        <?php
             endforeach;
 
     }
