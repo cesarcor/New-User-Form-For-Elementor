@@ -38,7 +38,7 @@ class Form extends Widget_Base {
         ];
 
         $nuf_field_widths = [
-            '' => __('Default', 'elemental-membership'),
+            '' => __('Default', 'new-user-form-elementor'),
             '100' => '100%',
             '80' => '80%',
             '75' => '75%',
@@ -140,13 +140,22 @@ class Form extends Widget_Base {
             ]
         );
 
+        $this->add_responsive_control(
+            'nuf_button_width',
+            [
+                'label' => __('Column Width', 'new-user-form-elementor'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => '100',
+                'options' => $nuf_field_widths,
+            ]
+        );
+
         $this->end_controls_section();
     }
 
     protected function render() {
-
     $settings = $this->get_settings_for_display();
-    
+    $buttonWidth = (('' !== $settings['nuf_button_width']) ? $settings['nuf_button_width'] : '100');
     ?>
 
     <form class="nuf-new-user-form">
@@ -155,9 +164,9 @@ class Form extends Widget_Base {
 
         <?php $this->render_fields(); ?>
 
-        <div class="nuf-button-container">
-            <button type="submit" class="nug-button elementor-button">
-                <?php echo esc_html($settings['nuf_submit_button_text']); ?>
+        <div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-<?php echo esc_attr($buttonWidth); ?>">
+            <button type="submit" class="nuf-button elementor-button" style="width:100%;">
+                <span><?php echo esc_html($settings['nuf_submit_button_text']); ?></span>
             </button>
         </div>
 
