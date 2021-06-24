@@ -154,25 +154,21 @@ class Form extends Widget_Base {
     }
 
     protected function render() {
-    $settings = $this->get_settings_for_display();
-    $buttonWidth = (('' !== $settings['nuf_button_width']) ? $settings['nuf_button_width'] : '100');
+        $settings = $this->get_settings_for_display();
     ?>
 
-    <form class="nuf-new-user-form">
+        <form class="nuf-new-user-form">
 
-    <div class="elementor-form-fields-wrapper elementor-labels-above">
+        <div class="elementor-form-fields-wrapper elementor-labels-above">
 
-        <?php $this->render_fields(); ?>
+            <?php 
+            $this->render_fields(); 
+            $this->render_button();
+            ?>
 
-        <div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-<?php echo esc_attr($buttonWidth); ?>">
-            <button type="submit" class="nuf-button elementor-button" style="width:100%;">
-                <span><?php echo esc_html($settings['nuf_submit_button_text']); ?></span>
-            </button>
         </div>
-
-    </div>
-    
-    </form>
+        
+        </form>
 
     <?php
     }
@@ -220,5 +216,19 @@ class Form extends Widget_Base {
         <?php
             endforeach;
 
+    }
+
+    protected function render_button(){
+        $settings = $this->get_settings_for_display();
+        $buttonWidth = (('' !== $settings['nuf_button_width']) ? $settings['nuf_button_width'] : '100');
+    ?>
+
+        <div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-<?php echo esc_attr($buttonWidth); ?>">
+            <button type="submit" class="nuf-button elementor-button" style="width:100%;">
+                <span><?php echo esc_html($settings['nuf_submit_button_text']); ?></span>
+            </button>
+        </div>
+
+    <?php
     }
 }
