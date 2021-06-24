@@ -151,6 +151,17 @@ class Form extends Widget_Base {
         );
 
         $this->end_controls_section();
+
+        $this->start_controls_section(
+            'nuf_form_styles',
+            [
+                'label' => __('Form', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+
+        $this->end_controls_section();
     }
 
     protected function render() {
