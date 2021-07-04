@@ -4,6 +4,7 @@ namespace New_User_Form_Elementor\Classes;
 
 use Elementor\Widget_Base;
 use Elementor\Repeater;
+use Elementor\Controls_Manager;
 use New_User_Form_Elementor\Classes\Form\Field_Creation;
 
 // Exit if accessed directly
@@ -150,12 +151,40 @@ class Form extends Widget_Base {
             ]
         );
 
+        $this->add_responsive_control(
+            'nuf_button_align',
+            [
+                'label' => __('Alignment', 'new-user-form-elementor'),
+                'type' => Controls_Manager::CHOOSE,
+                'options' => [
+                    'start' => [
+                        'title' => __('Left', 'new-user-form-elementor'),
+                        'icon' => 'eicon-text-align-left',
+                    ],
+                    'center' => [
+                        'title' => __('Center', 'new-user-form-elementor'),
+                        'icon' => 'eicon-text-align-center',
+                    ],
+                    'end' => [
+                        'title' => __('Right', 'new-user-form-elementor'),
+                        'icon' => 'eicon-text-align-right',
+                    ],
+                    'stretch' => [
+                        'title' => __('Justified', 'new-user-form-elementor'),
+                        'icon' => 'eicon-text-align-justify',
+                    ],
+                ],
+                'default' => 'start',
+                'prefix_class' => 'elementor%s-button-align-',
+            ]
+        );
+
         $this->end_controls_section();
 
         $this->start_controls_section(
             'nuf_form_styles',
             [
-                'label' => __('Form', 'elemental-membership'),
+                'label' => __('Form', 'new-user-form-elementor'),
                 'tab' => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
@@ -235,7 +264,7 @@ class Form extends Widget_Base {
     ?>
 
         <div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-<?php echo esc_attr($buttonWidth); ?>">
-            <button type="submit" class="nuf-button elementor-button" style="width:100%;">
+            <button type="submit" class="nuf-button elementor-button">
                 <span><?php echo esc_html($settings['nuf_submit_button_text']); ?></span>
             </button>
         </div>
