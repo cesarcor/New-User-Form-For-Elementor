@@ -5,6 +5,8 @@ namespace New_User_Form_Elementor\Classes;
 use Elementor\Widget_Base;
 use Elementor\Repeater;
 use Elementor\Controls_Manager;
+use Elementor\Core\Schemes;
+use Elementor\Group_Control_Typography;
 use New_User_Form_Elementor\Classes\Form\Field_Creation;
 
 // Exit if accessed directly
@@ -189,6 +191,104 @@ class Form extends Widget_Base {
             ]
         );
 
+        $this->add_control(
+            'column_gap',
+            [
+                'label' => __('Columns Gap', 'new-user-form-elementor'),
+                'type' => Controls_Manager::SLIDER,
+                'default' => [
+                    'size' => 10,
+                ],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 60,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .elementor-field-group' => 'padding-right: calc( {{SIZE}}{{UNIT}}/2 ); padding-left: calc( {{SIZE}}{{UNIT}}/2 );',
+                    '{{WRAPPER}} .elementor-form-fields-wrapper' => 'margin-left: calc( -{{SIZE}}{{UNIT}}/2 ); margin-right: calc( -{{SIZE}}{{UNIT}}/2 );',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'em_row_gap',
+            [
+                'label' => __('Rows Gap', 'new-user-form-elementor'),
+                'type' => Controls_Manager::SLIDER,
+                'default' => [
+                    'size' => 10,
+                ],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 60,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .nuf-field-group' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'heading_label',
+            [
+                'label' => __('Label', 'new-user-form-elementor'),
+                'type' => Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'label_spacing',
+            [
+                'label' => __('Spacing', 'new-user-form-elementor'),
+                'type' => Controls_Manager::SLIDER,
+                'default' => [
+                    'size' => 0,
+                ],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 60,
+                    ],
+                ],
+                'selectors' => [
+                    'body.rtl {{WRAPPER}} .elementor-labels-inline .elementor-field-group > label' => 'padding-left: {{SIZE}}{{UNIT}};',
+                    // for the label position = inline option
+                    'body:not(.rtl) {{WRAPPER}} .elementor-labels-inline .elementor-field-group > label' => 'padding-right: {{SIZE}}{{UNIT}};',
+                    // for the label position = inline option
+                    'body {{WRAPPER}} .elementor-labels-above .elementor-field-group > label' => 'padding-bottom: {{SIZE}}{{UNIT}};',
+                    // for the label position = above option
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'label_color',
+            [
+                'label' => __('Text Color', 'new-user-form-elementor'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .elementor-field-group > label, {{WRAPPER}} .elementor-field-subgroup label' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'label_typography',
+                'selector' => '{{WRAPPER}} .elementor-field-group > label',
+                'scheme' => Schemes\Typography::TYPOGRAPHY_3,
+            ]
+        );
 
         $this->end_controls_section();
     }
