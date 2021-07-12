@@ -291,6 +291,90 @@ class Form extends Widget_Base {
         );
 
         $this->end_controls_section();
+
+        $this->start_controls_section(
+            'nuf_field_styles',
+            [
+                'label' => __('Fields', 'new-user-form-elementor'),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+            'field_text_color',
+            [
+                'label' => __('Text Color', 'new-user-form-elementor'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .nuf-field-group .nuf-field' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'field_typography',
+                'selector' => '{{WRAPPER}} .nuf-field-group .nuf-field, {{WRAPPER}} .nuf-field-group label',
+                'scheme' => Schemes\Typography::TYPOGRAPHY_3,
+            ]
+        );
+
+        $this->add_control(
+            'field_background_color',
+            [
+                'label' => __('Background Color', 'new-user-form-elementor'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#ffffff',
+                'selectors' => [
+                    '{{WRAPPER}} .nuf-field' => 'background-color: {{VALUE}};',
+                ],
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'field_border_color',
+            [
+                'label' => __('Border Color', 'new-user-form-elementor'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .nuf-field-group .nuf-field' => 'border-color: {{VALUE}};',
+                ],
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'field_border_width',
+            [
+                'label' => __('Border Width', 'new-user-form-elementor'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'placeholder' => '1',
+                'size_units' => ['px'],
+                'selectors' => [
+                    '{{WRAPPER}} .nuf-field-group .nuf-field' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'field_border_radius',
+            [
+                'label' => __('Border Radius', 'new-user-form-elementor'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .nuf-field-group .nuf-field' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
     }
 
     protected function render() {
