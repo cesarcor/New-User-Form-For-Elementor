@@ -7,6 +7,7 @@ use Elementor\Repeater;
 use Elementor\Controls_Manager;
 use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
+use Elementor\Group_Control_Border;
 use New_User_Form_Elementor\Classes\Form\Field_Creation;
 
 // Exit if accessed directly
@@ -213,7 +214,7 @@ class Form extends Widget_Base {
         );
 
         $this->add_control(
-            'em_row_gap',
+            'nuf_row_gap',
             [
                 'label' => __('Rows Gap', 'new-user-form-elementor'),
                 'type' => Controls_Manager::SLIDER,
@@ -375,6 +376,130 @@ class Form extends Widget_Base {
         );
 
         $this->end_controls_section();
+
+        $this->start_controls_section(
+            'nuf_button_styles',
+            [
+                'label' => __('Buttons', 'new-user-form-elementor'),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->start_controls_tabs('tabs_button_style');
+
+        $this->start_controls_tab(
+            'tab_button_normal',
+            [
+                'label' => __('Normal', 'new-user-form-elementor'),
+            ]
+        );
+
+        $this->add_control(
+            'nuf_button_background_color',
+            [
+                'label' => __('Background Color', 'new-user-form-elementor'),
+                'type' => Controls_Manager::COLOR,
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_4,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .nuf-button' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'nuf_button_text_color',
+            [
+                'label' => __('Text Color', 'new-user-form-elementor'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '',
+                'selectors' => [
+                    '{{WRAPPER}} .nuf-button' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .nuf-button svg' => 'fill: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'nuf_button_typography',
+                'scheme' => Schemes\Typography::TYPOGRAPHY_4,
+                'selector' => '{{WRAPPER}} .nuf-button',
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Border::get_type(),
+            [
+                'name' => 'button_border',
+                'selector' => '{{WRAPPER}} .nuf-button',
+            ]
+        );
+
+        $this->add_control(
+            'button_border_radius',
+            [
+                'label' => __('Border Radius', 'new-user-form-elementor'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .nuf-button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'button_text_padding',
+            [
+                'label' => __('Text Padding', 'new-user-form-elementor'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .nuf-button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->start_controls_tab(
+            'tab_button_hover',
+            [
+                'label' => __('Hover', 'new-user-form-elementor'),
+            ]
+        );
+
+        $this->add_control(
+            'button_background_hover_color',
+            [
+                'label' => __('Background Color', 'new-user-form-elementor'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .nuf-button:hover' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'button_hover_color',
+            [
+                'label' => __('Text Color', 'new-user-form-elementor'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .nuf-button:hover' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->end_controls_tabs();
+
+        $this->end_controls_section();
+        
     }
 
     protected function render() {
