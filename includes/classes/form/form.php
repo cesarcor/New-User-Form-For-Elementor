@@ -124,6 +124,19 @@ class Form extends Widget_Base {
             ]
         );
 
+        $this->add_control(
+            'show_labels',
+            [
+                'label' => __('Label', 'new-user-form-elementor'),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __('Show', 'new-user-form-elementor'),
+                'label_off' => __('Hide', 'new-user-form-elementor'),
+                'return_value' => 'true',
+                'default' => 'true',
+                'separator' => 'before',
+            ]
+        );
+
         $this->end_controls_section();
 
         $this->start_controls_section(
@@ -533,7 +546,10 @@ class Form extends Widget_Base {
                 
                     <div class="nuf-field-group elementor-field-group elementor-column elementor-col-<?php echo esc_attr($fieldWidth); ?>">
 
-                        <label><?php echo $item['nuf_field_label'] ?></label>
+                        <?php if($settings['show_labels']):
+                            echo ('<label>' . esc_html($item['nuf_field_label']) . '</label>' );
+                         endif; 
+                         ?>
                 
                         <?php 
                         switch($item['nuf_field_type']):
