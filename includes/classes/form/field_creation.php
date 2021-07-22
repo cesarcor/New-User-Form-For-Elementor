@@ -14,7 +14,7 @@ class Field_Creation {
     public function create_password_field($field_attributes) {
         $placeholder = esc_attr($field_attributes['placeholder']);
 
-        return '<input class="nuf-field" type="password" placeholder= ' . $placeholder . '/>';
+        return '<input class="nuf-field" type="password" placeholder="' . $placeholder . '"/>';
     }
 
     public function create_textarea_field($field_attributes) {
