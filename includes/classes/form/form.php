@@ -523,12 +523,12 @@ class Form extends Widget_Base {
         $settings = $this->get_settings_for_display();
     ?>
 
-        <form class="nuf-new-user-form">
+        <form class="nuf-new-user-form" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>" enctype="multipart/form-data">
 
         <div class="elementor-form-fields-wrapper elementor-labels-above">
 
             <?php 
-                $this->render_fields(); 
+                $this->render_fields();
                 $this->render_button();
             ?>
 
@@ -563,20 +563,22 @@ class Form extends Widget_Base {
                             case 'last_name':
                                 echo $field_creation->create_text_field([
                                     'type' => $item['nuf_field_type'] === 'user_email' ? 'email' : 'text',
-                                    'placeholder' => $item['nuf_field_placeholder']
+                                    'placeholder' => $item['nuf_field_placeholder'],
+                                    'name' => $item['nuf_field_type']
                                 ]);
                             break;
                             case 'user_password':
                             case 'user_password_confirm':
                                 echo $field_creation->create_password_field([
-                                    'placeholder' => $item['nuf_field_placeholder']
+                                    'placeholder' => $item['nuf_field_placeholder'],
+                                    'name' => $item['nuf_field_type']
                                 ]);
                             break;
                             case 'user_description':
                                 echo $field_creation->create_textarea_field([
-                                    'placeholder' => $item['nuf_field_placeholder']
-                                    ]
-                                );
+                                    'placeholder' => $item['nuf_field_placeholder'],
+                                    'name' => $item['nuf_field_type']
+                                ]);
                             break;
                         endswitch; ?>
 
@@ -584,6 +586,12 @@ class Form extends Widget_Base {
 
         <?php
             endforeach;
+        ?>
+
+                <input type="hidden" name="action" value="nuf_register_user" />
+                <?php wp_nonce_field('nuf_register_user', 'nuf_register_user_nonce'); ?>
+
+        <?php
 
     }
 
