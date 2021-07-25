@@ -119,6 +119,10 @@ class Form extends Widget_Base {
                     [
                         'nuf_field_type' => 'user_password',
                         'nuf_field_label' => __('Password', 'new-user-form-elementor')
+                    ],
+                    [
+                        'nuf_field_type' => 'user_password_confirm',
+                        'nuf_field_label' => __('Confirm Password', 'new-user-form-elementor')
                     ]
                 ]
             ]
@@ -524,8 +528,8 @@ class Form extends Widget_Base {
         <div class="elementor-form-fields-wrapper elementor-labels-above">
 
             <?php 
-            $this->render_fields(); 
-            $this->render_button();
+                $this->render_fields(); 
+                $this->render_button();
             ?>
 
         </div>
