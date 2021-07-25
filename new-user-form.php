@@ -9,14 +9,15 @@
  * Text Domain: new-user-form-elementor
  */
 
- // Exit if accessed directly
+// Exit if accessed directly
 if (!defined('ABSPATH')):
     exit;
 endif;
 
-define('NUF_ELEMENTOR_PATH', trailingslashit(plugin_dir_path(__FILE__)));
+define('NUF_PATH', trailingslashit(plugin_dir_path(__FILE__)));
+define('NUF_PLUGIN_URL', trailingslashit(plugins_url('/', __FILE__)));
 
-require_once NUF_ELEMENTOR_PATH . 'autoload.php';
+require_once NUF_PATH . 'autoload.php';
 
 add_action('plugins_loaded', function (){
     \New_User_Form_Elementor\Classes\Bootstrap::instance();
