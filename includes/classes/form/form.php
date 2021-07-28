@@ -8,7 +8,9 @@ use Elementor\Controls_Manager;
 use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Border;
+use Elementor\Plugin;
 use New_User_Form_Elementor\Classes\Form\Field_Creation;
+use New_User_Form_Elementor\Traits\User_Registration;
 
 // Exit if accessed directly
 if (!defined('ABSPATH')):
@@ -16,6 +18,11 @@ if (!defined('ABSPATH')):
 endif;
 
 class Form extends Widget_Base {
+
+    use User_Registration;
+
+    protected $page_id;
+
     public function get_name() {
         return 'new-user-form';
     }
@@ -53,6 +60,14 @@ class Form extends Widget_Base {
             '33' => '33%',
             '25' => '25%',
             '20' => '20%',
+        ];
+
+        $nuf_user_roles = [
+            'subscriber' => __('Subscriber', 'new-user-form-elementor'),
+            'contributor' => __('Contributor', 'new-user-form-elementor'),
+            'author' => __('Author', 'new-user-form-elementor'),
+            'editor' => __('Editor', 'new-user-form-elementor'),
+            'administrator' => __('Administrator', 'new-user-form-elementor')
         ];
 
         $this->start_controls_section(
@@ -138,6 +153,26 @@ class Form extends Widget_Base {
                 'return_value' => 'true',
                 'default' => 'true',
                 'separator' => 'before',
+            ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'registration_options',
+            [
+                'label' => __('Registration Options', 'new-user-form-elementor'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+        
+        $this->add_control(
+            'nuf_user_role',
+            [
+                'label' => __('User Role', 'new-user-form-elementor'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'subscriber',
+                'options' => $nuf_user_roles
             ]
         );
 
@@ -543,6 +578,10 @@ class Form extends Widget_Base {
 
         $settings = $this->get_settings_for_display();
         $field_creation = new Field_Creation();
+
+        if (Plugin::$instance->documents->get_current()):
+            $this->page_id = Plugin::$instance->documents->get_current()->get_main_id();
+        endif;
             
             foreach ($settings['nuf_field_list'] as $item_index => $item): 
 
@@ -590,6 +629,8 @@ class Form extends Widget_Base {
 
                 <input type="hidden" name="action" value="nuf_register_user" />
                 <?php wp_nonce_field('nuf_register_user', 'nuf_register_user_nonce'); ?>
+                <input type="hidden" name="page_id" value="<?php echo esc_attr($this->page_id); ?>">
+                <input type="hidden" name="widget_id" value="<?php echo esc_attr($this->get_id()); ?>">
 
         <?php
 
