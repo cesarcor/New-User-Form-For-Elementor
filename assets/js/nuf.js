@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
 
-    $('nuf-new-user-form').on('submit', function(e){
+    $('.nuf-new-user-form').on('submit', function(e){
         e.preventDefault();
         var form = $(this);
 
@@ -16,6 +16,6 @@ jQuery(document).ready(function($) {
                 console.log(xhr.responseText);
             }
         });
-    })
+    });
     
 });

@@ -19,8 +19,6 @@ endif;
 
 class Form extends Widget_Base {
 
-    use User_Registration;
-
     protected $page_id;
 
     public function get_name() {
@@ -558,7 +556,7 @@ class Form extends Widget_Base {
         $settings = $this->get_settings_for_display();
     ?>
 
-        <form class="nuf-new-user-form" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>" enctype="multipart/form-data">
+        <form class="nuf-new-user-form" method="post">
 
         <div class="elementor-form-fields-wrapper elementor-labels-above">
 
