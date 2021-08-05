@@ -31,6 +31,7 @@ trait User_Registration{
 
         $user_login = isset($_POST['username']) ? $_POST['username'] : "";
         $user_pass = isset($_POST['user_password']) ? $_POST['user_password'] : "";
+        $user_pass_confirm = isset($_POST['user_password_confirm']) ? $_POST['user_password_confirm'] : "";
         $user_email = isset($_POST['user_email']) ? $_POST['user_email'] : "";
         $first_name = isset($_POST['first_name']) ? $_POST['first_name'] : "";
         $last_name = isset($_POST['last_name']) ? $_POST['last_name'] : "";
@@ -59,12 +60,32 @@ trait User_Registration{
             'role' => $user_role
         );
 
+        if($user_pass !== $user_pass_confirm):
+            wp_send_json_error(array('validation_error_code' => esc_html('password_mismatch'),
+                                     'validation_error_type' => esc_html('input_error'),
+                                     'validation_error_message' => esc_html('password mismatch')));
+            wp_die();
+        endif;
+
         $user_id = wp_insert_user($userdata);
 
-        die();
+        if(is_wp_error($user_id)):
+            wp_send_json_error( array('validation_error_code' => esc_html($user_id->get_error_code()),
+                                      'validation_error_type' => esc_html('input_error'),
+                                      'validation_error_message' => esc_html($user_id->get_error_message())));
+            wp_die();
+        endif;
+
+        return $user_id;
 
     }
 
+    /**
+     *
+     * Get widget data
+     *
+     * @since 1.0.0
+     */
     function find_element_recursive($elements, $form_id) {
         
         foreach ($elements as $element):
@@ -86,6 +107,12 @@ trait User_Registration{
         return false;
     }
 
+    /**
+     *
+     * Get form settings from Elementor.
+     *
+     * @since 1.0.0
+     */
     function nuf_get_widget_settings($page_id, $widget_id) {
 
         $document = Plugin::$instance->documents->get($page_id);
